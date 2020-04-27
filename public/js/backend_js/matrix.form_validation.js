@@ -149,6 +149,35 @@ $(document).ready(function(){
 		}
 	});
 
+	//delete product jquery script
+	$(".delProduct").click(function(){
+		var id= $(this).attr('rel');
+		var deletFunction = $(this).attr('rel1');
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "you won't be able to revert this",
+			showCancelButton: true,
+			confirmButtonColor: '#3085dg',
+			cancelButtonColor: '#d33',
+			confirmButtonText: "Yes delete it",
+			cancelButtonText: 'No, Cancel',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			icon: 'warning',
+			buttonStyling: false,
+			reverseButtons: true
+		}).then((result) => {
+			if(result.value) {
+				window.location.href="/admin/"+deletFunction+"/"+id;
+			}
+		});
+
+		
+		// function() {
+		// 	window.location.href="/admin/"+deletFunction+"/"+id;
+		// }
+	});
+
 	//edit product form validation
 	$("#edit_product").validate({
 		rules:{

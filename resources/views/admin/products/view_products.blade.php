@@ -20,7 +20,7 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>View Categories</h5>
+            <h5>Products View</h5><a style="margin-top:7px;" href="{{ url('admin/add-product') }}" class="btn btn-success btn-mini">Add</a>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -52,7 +52,7 @@
                       <img src="{{ asset('/images/banckend_images/products/small/'.$product->image) }}" style="width:60px;">
                       @endif
                   </td>
-                <td><a href="{{url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a> <a  data-toggle="modal" href="#myAlert{{$product->id}}" class="btn btn-danger btn-mini delCat">Delete</a>
+                <td><a href="{{url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a> <a rel="{{$product->id}}" rel1="delete-product"  href="javascript:" class="btn btn-danger btn-mini delProduct">Delete</a>
                 </td>
                 </tr>
                 <div id="myModal{{$product->id}}" class="modal hide">
@@ -69,7 +69,7 @@
                 </div>
                 </div>
 
-                <div id="myAlert{{$product->id}}" class="modal hide">
+                <!-- <div id="myAlert{{$product->id}}" class="modal hide">
                     <div class="modal-header">
                         <button data-dismiss="modal" class="close" type="button">×</button>
                         <h3>Delete Notification</h3>
@@ -78,7 +78,7 @@
                         <p>Are You sure you want to proceed to delete {{$product->product_name}}</p>
                     </div>
                     <div class="modal-footer"> <a class="btn btn-primary" href="{{ url('/admin/delete-product/'.$product->id) }}">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
-                </div>
+                </div> -->
                 @endforeach
               </tbody>
             </table>

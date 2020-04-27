@@ -4,6 +4,9 @@
 <title>Noel's Scent Admin</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha256-zuyRv+YsWwh1XR5tsrZ7VCfGqUmmPmqBjIvJgQWoSDo=" crossorigin="anonymous" /> -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.min.css">
 <link rel="stylesheet" href="{{ asset('css/backend_css/bootstrap.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/backend_css/bootstrap-responsive.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/backend_css/fullcalendar.css') }}" />
@@ -87,6 +90,9 @@ function resetMenu() {
    document.gomenu.selector.selectedIndex = 2;
 }
 </script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha256-JirYRqbf+qzfqVtEE4GETyHlAbiCpC005yBTa4rj6xg=" crossorigin="anonymous"></script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
 <script src="{{ asset('js/backend_js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/backend_js/jquery.ui.custom.js') }}"></script> 
 <script src="{{ asset('js/backend_js/bootstrap.min.js') }}"></script> 

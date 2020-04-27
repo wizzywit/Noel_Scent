@@ -40,8 +40,19 @@
                   <td>{{ $category->category_name }}</td>
                   <td>{{ $category->parent_id }}</td>
                   <td>{{ $category->url }}</td>
-                  <td><a href="{{url('/admin/edit-category/'.$category->id) }}" class="btn btn-primary btn-mini">Edit</a> <a onclick="return confirmDelete();" href="{{ url('/admin/delete-category/'.$category->id) }}" class="btn btn-danger btn-mini delCat">Delete</a></td>
+                  <td><a href="{{url('/admin/edit-category/'.$category->id) }}" class="btn btn-primary btn-mini">Edit</a> <a href="#myAlert{{$category->id}}" data-toggle="modal" class="btn btn-danger btn-mini delCat">Delete</a></td>
                 </tr>
+
+                <div id="myAlert{{$category->id}}" class="modal hide">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close" type="button">×</button>
+                        <h3>Delete Notification</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are You sure you want to proceed to delete {{$category->category_name}}</p>
+                    </div>
+                    <div class="modal-footer"> <a class="btn btn-primary" href="{{ url('/admin/delete-category/'.$category->id) }}">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
+                </div>
                 @endforeach
               </tbody>
             </table>

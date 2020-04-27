@@ -59,6 +59,7 @@
                 <label class="control-label">Image</label>
                 <div class="controls">
                   <input type="file" name="image" id="image">
+                  <img src="{{ asset('/images/banckend_images/products/small/'.$product->image) }}" style="width:40px;">
                 </div>
               </div>
               <div class="form-actions">
