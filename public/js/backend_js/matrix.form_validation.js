@@ -150,7 +150,7 @@ $(document).ready(function(){
 	});
 
 	//delete product jquery script
-	$(".delProduct").click(function(){
+	$(".delConfirm").click(function(){
 		var id= $(this).attr('rel');
 		var deletFunction = $(this).attr('rel1');
 		Swal.fire({

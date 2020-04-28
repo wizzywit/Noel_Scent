@@ -52,7 +52,7 @@
                       <img src="{{ asset('/images/banckend_images/products/small/'.$product->image) }}" style="width:60px;">
                       @endif
                   </td>
-                <td><a href="{{url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a> <a rel="{{$product->id}}" rel1="delete-product"  href="javascript:" class="btn btn-danger btn-mini delProduct">Delete</a>
+                <td><a href="{{url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a> <a rel="{{$product->id}}" rel1="delete-product"  href="javascript:" class="btn btn-danger btn-mini delConfirm">Delete</a>
                 <a href="{{ url('/admin/add-attribute/'.$product->id) }}" class="btn btn-warning btn-mini">Add</a>  
               </td>
                 </tr>
