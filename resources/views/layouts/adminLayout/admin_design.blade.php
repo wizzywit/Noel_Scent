@@ -108,7 +108,6 @@ function resetMenu() {
 <script src="{{ asset('js/backend_js/jquery.peity.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/wysihtml5-0.3.0.js') }}"></script>
 
-<script src="{{ asset('js/backend_js/jquery.gritter.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/matrix.interface.js') }}"></script> 
 <script src="{{ asset('js/backend_js/matrix.popover.js') }}"></script>
 </body>
