@@ -8,4 +8,8 @@ class Products extends Model
 {
     //
     protected $fillable = ['category_id','product_name','product_code','product_color','description','price','image'];
+
+    public function attributes() {
+        return $this->hasMany('App\ProductsAttribute');
+    }
 }

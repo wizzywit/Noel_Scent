@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Products;
+use App\ProductsAttribute;
 use App\Categories;
 use Illuminate\Http\Request;
 use Image;
@@ -138,7 +139,7 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function editProduct(Request $request, Products $products, $id)
+    public function editProduct(Request $request, Products $products, $id = null)
     {
         //
         $product = $products->where(['id'=>$id])->first();
@@ -231,7 +232,7 @@ class ProductsController extends Controller
      * @param  \App\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function deleteProducts(Products $products, $id)
+    public function deleteProducts(Products $products, $id = null)
     {
         //
         $product = $products->where(['id'=>$id])->first();
@@ -249,5 +250,32 @@ class ProductsController extends Controller
             return redirect()->back()->with('flash_message_success',$product['product_name'].' Product Deleted Successfully');
         }
         
+    }
+
+    public function addAttributes(Request $request, Products $products, $id = null){
+
+        $product = $products->where(['id'=>$id])->first();
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // echo "<pre>"; print_r($data);
+
+            foreach($data['sku'] as $key => $val){
+                if(!empty($val)){
+                    $attribute = new ProductsAttribute;
+                    $attribute->sku = $val;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->product_id = $product->id;
+                    $attribute->save();
+                }
+            }
+            return redirect('/admin/add-attributes/'.$product->product_id)->with('flash_message_success','Product Attributes added successfully');
+        }else {
+        if($product->count() > 0){
+            return view('admin.products.add_attributes')->with(compact('product'));
+        }
+
+    }
     }
 }
