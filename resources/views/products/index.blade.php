@@ -1,7 +1,7 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 
-    <section id="slider"><!--slider-->
+<section id="slider"><!--slider-->
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
@@ -73,7 +73,7 @@
 				
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
-                        <h2 class="title text-center">Features Items</h2>
+                        <h2 class="title text-center">{{$category->category_name}}</h2>
                         @foreach($products as $product)
 						<div class="col-sm-4">
 							<div class="product-image-wrapper">

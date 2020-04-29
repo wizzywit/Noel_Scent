@@ -10,7 +10,14 @@ class Categories extends Model
     protected $fillable = [
         'category_name',
         'description',
+        'parent_id',
         'url',
         // add all other fields
     ];
+
+
+    public function subCategories() {
+        return $this->hasMany('App\Categories','parent_id');
+    }
+
 }

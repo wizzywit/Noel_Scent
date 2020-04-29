@@ -17,10 +17,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+//home page
 Route::get('/','IndexController@index');
 
 Route::match(['get','post'],'/admin', 'AdminController@login');
 Route::get('/logout', 'AdminController@logout');
+
+//Product Listing Page
+Route::get('/products/{url}', 'ProductsController@products');
 
 //group of middleware to be unable to access url's without authentication
 Route::group(['middleware' => ['auth']], function() {

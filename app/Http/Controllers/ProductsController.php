@@ -281,10 +281,43 @@ class ProductsController extends Controller
         }
     }
 
-    public function deleteAttribute($id) {
+    public function deleteAttribute($id = null) {
         $attribute = ProductsAttribute::where(['id'=>$id])->first()->delete();
         return redirect()->back()->with('flash_message_success','Attribute Deleted successfully');
 
+    }
+
+    public function products($url = null) {
+
+        $category = Categories::where(['url'=>$url])->get();
+        
+        if($category->count() == 0){
+           abort(404);
+        }
+
+        $category = Categories::where(['url'=>$url])->first();
+        //if category is a parent category
+        if($category->parent_id == 0){
+
+            $subCats = Categories::where(['parent_id'=>$category->id])->get();
+            $cat_ids = "";
+            foreach($subCats as $subCat ){
+                $cat_ids .= $subCat->id.",";
+            }
+
+            // echo $cat_ids; die;
+            //whereIn is used too check if a column value is same as any value in an array
+            $products = Products::whereIn('category_id', array($cat_ids))->get();
+
+        }else {
+            $products = Products::where(['category_id'=>$category->id])->get();
+        } // else its a sub category
+
+
+        // echo "<pre>"; print_r($products); die;
+
+
+        return view('products.index')->with(compact('products','category'));
     }
 
 }

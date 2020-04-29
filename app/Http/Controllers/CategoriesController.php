@@ -44,8 +44,12 @@ class CategoriesController extends Controller
         $category = Categories::where(['id'=> $id])->first();
         if($request->isMethod('post')){
             $data = $request->all();
-            $category->update(['category_name' => $data['category_name'],
+            // echo "<pre>"; print_r($data); die;
+
+            $category->update([
+                'category_name' => $data['category_name'],
                 'description' => $data['description'],
+                'parent_id' => $data['parent_id'],
                 'url' => $data['url'],
             ]);
             return redirect('/admin/view-category')->with('flash_message_success',$data['category_name'].' Category update Successfully');

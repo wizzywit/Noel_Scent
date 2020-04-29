@@ -1,3 +1,8 @@
+<?php 
+use App\Http\Controllers\Controller;
+$mainCategories = Controller::allCategories();
+?>
+
 <header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -5,8 +10,8 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="tel:+2347050807509"><i class="fa fa-phone"></i> +234 7050807509</a></li>
+								<li><a href="mailto:info@noelsscent.com"><i class="fa fa-envelope"></i> info@noelsscent.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -85,14 +90,17 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html" class="active">Home</a></li>
+                                <li><a href="index.html" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
+                                        @foreach($mainCategories as $category)
+                                        <li><a href="{{url('products/'.$category->url)}}">{{$category->category_name}}</a></li>
+                                        @endforeach
+
+										<!-- <li><a href="product-details.html">Product Details</a></li> 
 										<li><a href="checkout.html">Checkout</a></li> 
 										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+										<li><a href="login.html">Login</a></li>  -->
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
