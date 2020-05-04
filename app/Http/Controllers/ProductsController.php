@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Products;
 use App\ProductsAttribute;
+use App\ProductsImage;
 use App\Categories;
 use Illuminate\Http\Request;
 use Image;
@@ -243,15 +244,14 @@ class ProductsController extends Controller
     public function deleteProducts(Products $products, $id = null)
     {
         //find product details
-        $product = $products->where(['id'=>$id])->first();
+        $product = $products->with('images')->where(['id'=>$id])->first();
+
+        foreach($product->images as $image){
+            $this->deleteImageOnly($image->image);
+        }
 
         //delete product images first
-        $url_small = 'images/banckend_images/products/small/'.$product->image;
-        $url_medium = 'images/banckend_images/products/medium/'.$product->image;
-        $url_large = 'images/banckend_images/products/large/'.$product->image;
-        
-
-        $del1 = File::delete($url_small,$url_large,$url_medium);
+        $this->deleteImageOnly($product->image);
 
         //if deleted
        
@@ -274,6 +274,17 @@ class ProductsController extends Controller
 
             foreach($data['sku'] as $key => $val){
                 if(!empty($val)){
+
+                    //SKU Check
+                    $attrCountSKU = ProductsAttribute::where(['sku'=>$val, 'product_id'=>$product->id])->count();
+                    if($attrCountSKU >0){
+                        return redirect()->back()->with('flash_message_error','SKU duplicate: Can\'t have multiple sku value')->with(compact('id'));
+                    }
+
+                    $attrCountSize = ProductsAttribute::where(['size'=>$data['size'][$key], 'product_id'=>$product->id])->count();
+                    if($attrCountSize >0){
+                        return redirect()->back()->with('flash_message_error','Size duplicate: Can\'t have multiple size values')->with(compact('id'));
+                    }
                     $attribute = new ProductsAttribute;
                     $attribute->sku = $val;
                     $attribute->size = $data['size'][$key];
@@ -351,6 +362,80 @@ class ProductsController extends Controller
         $proAttr = ProductsAttribute::where(['size'=>$proArr[1], 'product_id'=>$proArr[0]])->first();
         
         echo $proAttr->price;
+    }
+
+    public function addImages(Request $request, Products $products, $id = null){
+
+        $product = $products->with('images')->where(['id'=>$id])->first();
+        // $product = json_decode(json_encode($product));
+        $id = 1;
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+
+            if($request->hasFile('image')){
+                $files = $request->file('image');
+                // echo "<pre>"; print_r($files); die;
+
+                //upload Images after resize
+                foreach($files as $file){
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = rand(111,99999).'.'.$extension;
+
+                    $large_image_path = 'images/banckend_images/products/large/'.$filename;
+                    $medium_image_path = 'images/banckend_images/products/medium/'.$filename;
+                    $small_image_path = 'images/banckend_images/products/small/'.$filename;
+
+                    //Resize Images and save
+                    Image::make($file)->resize(500,500)->save($large_image_path);
+                    Image::make($file)->resize(180,180)->save($medium_image_path);
+                    Image::make($file)->resize(60,60)->save($small_image_path);
+    
+                    $image = ProductsImage::create([
+                        'image'=>$filename,
+                        'product_id'=>$product->id
+                    ]);
+
+                    if($image){
+                        continue;
+                    }else{
+                        echo "Error saving"; die;
+                    }
+                }
+
+                return redirect()->back()->with(compact('product','id'));
+               
+
+
+            }
+        }else {
+        if($product->count() > 0){
+
+            return view('admin.products.add_images')->with(compact('product','id'));
+          }
+
+        }
+    }
+
+    public function deleteImage($id = null) {
+        $image = ProductsImage::where(['id'=>$id])->first();
+        $this->deleteImageOnly($image->image);
+
+        $image = $image->delete();
+        if($image){
+            return redirect()->back()->with('flash_message_success','Image Deleted successfully');
+        } else return redirect()->back()->with('flash_message_error','Image Deletion Failed');
+
+    }
+
+    function deleteImageOnly($image){
+        $url_small = 'images/banckend_images/products/small/'.$image;
+        $url_medium = 'images/banckend_images/products/medium/'.$image;
+        $url_large = 'images/banckend_images/products/large/'.$image;
+        
+
+        return File::delete($url_small,$url_large,$url_medium);
+        
     }
 
 }

@@ -14,4 +14,10 @@ class Products extends Model
         // @param product_id signifies the fk in the relation;
         return $this->hasMany('App\ProductsAttribute','product_id');
     }
+
+    public function images() {
+
+        // @param product_id signifies the fk in the relation;
+        return $this->hasMany('App\ProductsImage','product_id');
+    }
 }
