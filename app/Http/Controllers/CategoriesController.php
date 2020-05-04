@@ -12,12 +12,19 @@ class CategoriesController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
+            if(empty($data['status'])){
+                $data['status'] = 0;
+                // echo "<pre>"; print_r($data['status']); die;
+            } else $data['status'] = 1;
+
+            // echo "<pre>"; print_r($data); die;
 
             $category = new Categories;
             $category->parent_id = $data['parent_id'];
             $category->category_name = $data['category_name'];
             $category->description = $data['description'];
             $category->url = $data['url'];
+            $category->status = $data['status'];
             $category->save();
             return redirect('/admin/view-category')->with('flash_message_success',$data['category_name'].' Category added Successfully');
         }
@@ -45,14 +52,28 @@ class CategoriesController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
+            if(empty($data['status'])){
+                $data['status'] = 0;
+                // echo "<pre>"; print_r($data['status']); die;
+            } else $data['status'] = 1;
+            // echo "<pre>"; print_r($data); die;
 
-            $category->update([
+            //upadate returns boolean
+            $save = $category->update([
                 'category_name' => $data['category_name'],
                 'description' => $data['description'],
                 'parent_id' => $data['parent_id'],
+                'status' => $data['status'],
                 'url' => $data['url'],
             ]);
-            return redirect('/admin/view-category')->with('flash_message_success',$data['category_name'].' Category update Successfully');
+
+            if($save){
+                return redirect('/admin/view-category')->with('flash_message_success',$data['category_name'].' Category update Successfully'); 
+            }
+
+            else {
+                return redirect('/admin/view-category')->with('flash_message_error',$data['category_name'].' Category update Fail');
+            }
         }
         $category = Categories::where(['id'=> $id])->first();
         // echo "<pre>"; print_r($category['description']); die;

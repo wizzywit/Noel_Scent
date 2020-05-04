@@ -11,6 +11,7 @@ class Categories extends Model
         'category_name',
         'description',
         'parent_id',
+        'status',
         'url',
         // add all other fields
     ];

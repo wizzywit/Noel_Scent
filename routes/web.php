@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+//get product price related to size of product
+Route::get('/get-product-price','ProductsController@getProductPrice');
+
+//product details page
+Route::get('product/{id}', 'ProductsController@product');
+
 //home page
 Route::get('/','IndexController@index');
 

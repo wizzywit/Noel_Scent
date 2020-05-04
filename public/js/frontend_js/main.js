@@ -27,4 +27,29 @@ $(document).ready(function(){
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
 	});
+
+
+});
+
+$(document).ready(function(){
+	$('#selSIze').change(function(){
+		// alert("test")
+		var idSize = $(this).val();
+		// alert(idSize);
+		if(idSize == ""){
+			return false;
+		}
+		$.ajax({
+			type: 'get',
+			url: '/get-product-price',
+			data: {idSize:idSize},
+			success: function(resp){
+				// alert(resp);
+				$('#getPrice').html(resp);
+			},
+			error: function(){
+				alert("Error");
+			}
+		});
+	});
 });

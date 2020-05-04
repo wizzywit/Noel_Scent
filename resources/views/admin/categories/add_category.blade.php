@@ -46,6 +46,12 @@
                   <input type="text" name="url" id="url">
                 </div>
               </div>
+              <div class="control-group">
+                <label class="control-label">Enable</label>
+                <div class="controls">
+                  <input type="checkbox" name="status" id="status">
+                </div>
+              </div>
               <div class="form-actions">
                 <input type="submit" value="Add Category" class="btn btn-success">
               </div>

@@ -16,6 +16,12 @@
             <strong>{!! session('flash_message_success') !!}</strong>
         </div>
     @endif
+    @if(Session::has('flash_message_error'))
+        <div class="alert alert-error alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>	
+            <strong>{!! session('flash_message_error') !!}</strong>
+        </div>
+    @endif
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
@@ -40,19 +46,8 @@
                   <td>{{ $category->category_name }}</td>
                   <td>{{ $category->parent_id }}</td>
                   <td>{{ $category->url }}</td>
-                  <td><a href="{{url('/admin/edit-category/'.$category->id) }}" class="btn btn-primary btn-mini">Edit</a> <a href="#myAlert{{$category->id}}" data-toggle="modal" class="btn btn-danger btn-mini delCat">Delete</a></td>
+                  <td><a href="{{url('/admin/edit-category/'.$category->id) }}" class="btn btn-primary btn-mini">Edit</a> <a rel="{{$category->id}}" rel1="delete-category"  href="javascript:" class="btn btn-danger btn-mini delConfirm">Delete</a></td>
                 </tr>
-
-                <div id="myAlert{{$category->id}}" class="modal hide">
-                    <div class="modal-header">
-                        <button data-dismiss="modal" class="close" type="button">×</button>
-                        <h3>Delete Notification</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are You sure you want to proceed to delete {{$category->category_name}}</p>
-                    </div>
-                    <div class="modal-footer"> <a class="btn btn-primary" href="{{ url('/admin/delete-category/'.$category->id) }}">Confirm</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a> </div>
-                </div>
                 @endforeach
               </tbody>
             </table>

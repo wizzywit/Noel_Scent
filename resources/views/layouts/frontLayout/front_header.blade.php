@@ -93,8 +93,10 @@ $mainCategories = Controller::allCategories();
                                 <li><a href="index.html" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        @foreach($mainCategories as $category)
-                                        <li><a href="{{url('products/'.$category->url)}}">{{$category->category_name}}</a></li>
+										@foreach($mainCategories as $category)
+										@if($category->status == "1")
+										<li><a href="{{url('products/'.$category->url)}}">{{$category->category_name}}</a></li>
+										@endif
                                         @endforeach
 
 										<!-- <li><a href="product-details.html">Product Details</a></li> 

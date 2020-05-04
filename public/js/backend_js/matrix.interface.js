@@ -40,12 +40,14 @@ $(document).ready(function(){
 	});
 	
 	// === jQeury Gritter, a growl-like notifications === //
-	$.gritter.add({
-		title:	'Important Unread messages',
-		text:	'You have 12 unread messages.',
-		image: 	'/images/banckend_images/demo/envelope.png',
-		sticky: false
-	});	
+	// $.gritter.add({
+	// 	title:	'Important Unread messages',
+	// 	text:	'You have 12 unread messages.',
+	// 	image: 	'/images/banckend_images/demo/envelope.png',
+	// 	sticky: false
+	// });	
+
+	
 	$('#gritter-notify .normal').click(function(){
 		$.gritter.add({
 			title:	'Normal notification',

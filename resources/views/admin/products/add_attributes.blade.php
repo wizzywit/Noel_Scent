@@ -90,7 +90,7 @@
                     <td>{{ $attribute->size }}</td>
                     <td>{{ $attribute->price }}</td>
                     <td>{{ $attribute->stock }}</td>
-                    <td><a href="#">Edit</a> | <a rel="{{$attribute->id}}" rel1="delete-attribute"  href="javascript:" class="delConfirm" style="color:red;">Delete</a></td>
+                    <td><a rel="{{$attribute->id}}" rel1="delete-attribute"  href="javascript:" class="delConfirm" style="color:red;">Delete</a></td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -1,13 +1,16 @@
 <?php 
 use App\Http\Controllers\Controller;
 $mainCategories = Controller::allCategories();
+// $mainCategories = json_decode(json_encode($mainCategories));
+// echo "<pre>"; print_r($mainCategories[0]->subCategories[0]->category_name); die;
 ?>
 <div class="col-sm-3">
 					<div class="left-sidebar">
 						<h2>Category</h2>
                         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                         
-                            @foreach ($mainCategories as $category)
+							@foreach ($mainCategories as $category)
+							@if($category->status == "1")
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
@@ -20,14 +23,16 @@ $mainCategories = Controller::allCategories();
 								<div id="{{$category->id}}" class="panel-collapse collapse">
 									<div class="panel-body">
 										<ul>
-
-                                            @foreach($category->subCategories as $sub_cat)
-                                            <li><a href="{{ url('/products/'.$sub_cat->url) }}">{{ $sub_cat->category_name}}</a></li>
+											@foreach($category->subCategories as $sub_cat)
+											@if($sub_cat->status == "1")
+											<li><a href="{{ url('/products/'.$sub_cat->url) }}">{{ $sub_cat->category_name}}</a></li>
+											@endif
                                             @endforeach
 										</ul>
 									</div>
 								</div>
-                            </div>
+							</div>
+							@endif
                             @endforeach
 						</div><!--/category-products-->
 					

@@ -64,6 +64,9 @@ class ProductsController extends Controller
             if(empty($data['description'])){
                 $data['description'] = '';
             }
+            if(empty($data['care'])){
+                $data['care'] = '';
+            }
 
             //upload image to folder
             if($request->hasFile('image')){
@@ -93,6 +96,7 @@ class ProductsController extends Controller
             'product_code' => $data['product_code'],
             'product_color' => $data['product_color'],
             'description' => $data['description'],
+            'care'=> $data['care'],
             'price' => $data['price'], 
             ]);
 
@@ -189,6 +193,9 @@ class ProductsController extends Controller
             if(empty($data['description'])){
                 $data['description'] = '';
             }
+            if(empty($data['care'])){
+                $data['care'] = '';
+            }
 
             $product->update([
             'category_id' => $data['category_id'],
@@ -197,6 +204,7 @@ class ProductsController extends Controller
             'product_code' => $data['product_code'],
             'product_color' => $data['product_color'],
             'description' => $data['description'],
+            'care'=>$data['care'],
             'price' => $data['price'],
             ]);
             return redirect('/admin/view-products')->with('flash_message_success',$data['product_name'].' Product updated Successfully');
@@ -234,21 +242,24 @@ class ProductsController extends Controller
      */
     public function deleteProducts(Products $products, $id = null)
     {
-        //
+        //find product details
         $product = $products->where(['id'=>$id])->first();
+
+        //delete product images first
         $url_small = 'images/banckend_images/products/small/'.$product->image;
         $url_medium = 'images/banckend_images/products/medium/'.$product->image;
         $url_large = 'images/banckend_images/products/large/'.$product->image;
         
 
-        $del1 = File::delete($url_small);
-        $del2 = File::delete($url_large);
-        $del3 = File::delete($url_medium);
+        $del1 = File::delete($url_small,$url_large,$url_medium);
 
+        //if deleted
+       
         $product->delete();
         if($product){
             return redirect()->back()->with('flash_message_success',$product['product_name'].' Product Deleted Successfully');
-        }
+        } else return redirect()->back()->with('flash_message_error',$product['product_name'].' Product Deletion Failed');
+      
         
     }
 
@@ -283,13 +294,15 @@ class ProductsController extends Controller
 
     public function deleteAttribute($id = null) {
         $attribute = ProductsAttribute::where(['id'=>$id])->first()->delete();
-        return redirect()->back()->with('flash_message_success','Attribute Deleted successfully');
+        if($attribute){
+            return redirect()->back()->with('flash_message_success','Attribute Deleted successfully');
+        } else return redirect()->back()->with('flash_message_error','Attribute Deletion Failed');
 
     }
 
     public function products($url = null) {
 
-        $category = Categories::where(['url'=>$url])->get();
+        $category = Categories::where(['url'=>$url, 'status' =>1])->get();
         
         if($category->count() == 0){
            abort(404);
@@ -318,6 +331,26 @@ class ProductsController extends Controller
 
 
         return view('products.index')->with(compact('products','category'));
+    }
+
+    public function product($id = null){
+        $productDetails = Products::with('attributes')->where(['id'=>$id])->first();
+        if($productDetails){
+            return view('products.product_details')->with(compact('productDetails')); 
+        }
+        else {
+            abort(404);
+        }
+    }
+
+    public function getProductPrice(Request $request) {
+        $data = $request->all();
+        $proArr = explode('-',$data['idSize']);
+        // echo $proArr[0]; echo $proArr[1]; die;
+
+        $proAttr = ProductsAttribute::where(['size'=>$proArr[1], 'product_id'=>$proArr[0]])->first();
+        
+        echo $proAttr->price;
     }
 
 }
