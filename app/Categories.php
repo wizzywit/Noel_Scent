@@ -21,4 +21,10 @@ class Categories extends Model
         return $this->hasMany('App\Categories','parent_id');
     }
 
+    public function products() {
+
+        // @param product_id signifies the fk in the relation;
+        return $this->hasMany('App\Products','category_id');
+    }
+
 }
